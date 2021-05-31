@@ -1,0 +1,139 @@
+<html>
+<meta charset="UTF-8">
+<head></head>
+
+<body>
+  <style>
+    #father {
+      width: 300px;
+      height: 300px;
+      border: 1px solid #ccc;
+    }
+
+    #son {
+      width: 30px;
+      height: 30px;
+      background: #bca;
+    }
+
+    /* #dyCti {
+      display: none;
+    } */
+  </style>
+<!--
+  <div>
+    <p onclick="test.callme()"> call 18716001130 </p>
+    <p onclick="test.copy()"> copy 2160378600 to cti</p>
+    <p onclick="test.copy2sms()"> copy 2160378600 to cti sms</p>
+    <p onclick="test.logout()"> logout </p>
+  </div> -->
+  <!-- allow="microphone" 谷歌浏览器在64版本后必须添加 -->
+  <div id="flag"></div>
+  <script src="./jquery-3.6.js"></script>
+  <script id="dySdkScript" type="text/javascript" src='https://cti.duyansoft.com/syui/dysdk/dysdk2.min.js' width="280" height="460"></script>
+
+  <script type="text/javascript">
+  window.onload = function () {
+    let scriptDom = document.createElement('script')
+    scriptDom.type = 'text/javascript'
+    scriptDom.src = 'https://cti.duyansoft.com/?account_id=10222589&token=6ee4bdb3-c0aa-452c-8311-f2447f1713bc'
+    document.getElementById('flag').appendChild(scriptDom);
+    DYSDK.init();
+  }
+
+    window.test = {};
+
+    DYSDK.ready(function () {
+      test.callme = function () {
+        DYSDK.call('18716001130', function () {}, '123123');
+      }
+
+      test.copy = function () {
+        DYSDK.copy2cti('2160378600', function (data) {
+          alert('copy done')
+        })
+      }
+
+      test.copy2sms = function () {
+        DYSDK.copy2CtiSms('2160378600', function (data) {
+          alert('copy done')
+        })
+      }
+
+      test.logout = function () {
+        DYSDK.logout(function (data) {
+          alert('logout')
+        })
+      }
+    })
+
+    // window.onload=function(){
+    // DYSDK.init();
+    // 接通电话的回调函数，返回电话号码等信息
+    DYSDK.callConfirm(function (data) {
+      console.log(data)
+      if (!data.uuid) {
+        alert("不存在uuid");
+      }
+
+    });
+
+    // 拨打电话失败的回调函数，返回电话号码等信息
+    DYSDK.callFail(function (data) {
+      // var id = localStorage.getItem('id');
+      console.log(data)
+      // console.log(id)
+      if (!data.uuid) {
+        alert("不存在uuid");
+      }
+
+    });
+
+    // 电话结束的回调函数，返回电话号码等信息
+    DYSDK.callEnd(function (data) {
+      console.log(data)
+      if (!data.uuid) {
+        alert("不存在uuid");
+      }
+    });
+
+    // 正在拨打中的回调函数，返回电话号码等信息
+    DYSDK.callConnecting(function (data) {
+      console.log(data);
+    });
+
+    // 编辑电话记录结束后的回调函数，返回电话号码等信息
+    DYSDK.wrapupEnd(function (data) {
+      console.log(data);
+      if (!data.uuid) {
+        alert("不存在uuid");
+      }
+    })
+
+    // CTI退出登录的回调函数
+    DYSDK.ctiLogout(function (data) {
+      alert('done');
+    });
+
+    //登录成功后返回accountId.
+    DYSDK.ctiLogined(function (data) {
+      console.log(data);
+    });
+
+    DYSDK.callBridge(function (data) {
+      console.log(data);
+      // if(!data.uuid){
+      //     alert("不存在uuid");
+      // }
+    });
+
+    DYSDK.getPhonelines(function (data) {
+      console.log(data);
+      test['phoneline'] = data;
+    });
+    //}
+  </script>
+
+</body>
+
+</html>
